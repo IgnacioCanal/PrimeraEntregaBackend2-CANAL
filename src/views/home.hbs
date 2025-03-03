@@ -1,0 +1,50 @@
+<h1>Lista de Productos</h1>
+
+{{#if products.docs.length}}
+  <p>Página {{products.page}} de {{products.totalPages}}</p>
+  <button id="reset-cart-btn" class="btn">Crear nuevo carrito</button>
+  <div class="row">
+    {{#each products.docs}}
+      <div class="col s12 m6 l4">
+        <div class="card small">
+          <div class="card-title center-align bold">
+            <h4>{{this.nombre}}</h4>
+          </div>
+          <div class="card-content">
+            <p class="content-padding">Precio: ${{this.precio}}</p>
+            <p class="content-padding">Categoría: {{this.categoria}}</p>
+            <p class="content-padding">Stock: {{this.stock}}</p>
+          </div>
+          <div class="card-action center-align">
+            <a href="#" class="btn btn-custom hoverable" onclick="addToCart('{{this._id}}')">Agregar al carrito</a>
+          </div>
+        </div>
+      </div>
+    {{/each}}
+  </div>
+
+  <div class="position-relative m-4 container center-align">
+    <ul class="pagination">
+      {{#if products.hasPrevPage}}
+        <li class="page-item waves-effect">
+          <a class="page-link" href="/?page={{products.prevPage}}&&limit=10"><i class="material-icons">Anterior</i></a>
+        </li>
+      {{/if}}
+      <li class="active deep-purple darken-2">
+      <a href="#!">{{products.page}}</a>
+    </li>
+      {{#if products.hasNextPage}}
+        <li class="page-item waves-effect">
+          <a class="page-link" href="/?page={{products.nextPage}}&&limit=10"><i class="material-icons">Siguiente</i></a>
+        </li>
+      {{/if}}
+    </ul>
+    <p class="btn waves-effect waves-light blue darken-2">
+      Current Page:
+      {{products.page}}
+    </p>
+  </div>
+
+{{else}}
+  <p>No hay productos disponibles.</p>
+{{/if}}

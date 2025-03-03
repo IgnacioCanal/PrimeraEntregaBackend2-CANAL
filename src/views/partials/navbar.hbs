@@ -1,0 +1,31 @@
+<ul id="dropdown1" class="dropdown-content">
+  {{#if carts}}
+    {{#each carts}}
+      <li>
+        <a href="/cart/{{this._id}}" data-cartid="{{this._id}}">
+          Carrito {{this._id}} ({{this.products.length}} productos)
+        </a>
+      </li>
+    {{/each}}
+  {{else}}
+    <li><a href="#!">No hay carritos disponibles</a></li>
+  {{/if}}
+</ul>
+
+<nav>
+  <div class="nav-wrapper">
+    <a href="#" class="brand-logo right">Victornillo Ferretería</a>
+    <a href="#" data-target="mobile-nav" class="sidenav-trigger"><i class="material-icons">menu</i></a>
+    <ul id="nav-mobile" class="left hide-on-small-and-down">
+      <li><a href="/">Lista de Productos</a></li>
+      <li><a href="/realtimeproducts">Productos en Tiempo Real</a></li>
+      <li><a class="dropdown-trigger" href="#!" data-target="dropdown1">Carritos<i class="material-icons right">🔽</i></a></li>
+    </ul>
+  </div>
+</nav>
+
+<ul class="sidenav" id="mobile-nav">
+  <li><a href="/">Lista de Productos</a></li>
+  <li><a href="/realtimeproducts">Productos en Tiempo Real</a></li>
+  <li><a href="/cart">Carrito (<span id="cart-count">{{cartCount}}</span>)</a></li>
+</ul>

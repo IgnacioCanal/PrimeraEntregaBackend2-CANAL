@@ -1,0 +1,45 @@
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Ferretería Victornillo</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css"
+    />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
+
+  </head>
+  <body>
+    {{> navbar}}
+    <div class="container">
+      {{{body}}}
+    </div>
+
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"
+    ></script>
+    <script>
+      document.addEventListener('DOMContentLoaded', function() {
+        let elems = document.querySelectorAll('.sidenav');
+        M.Sidenav.init(elems);
+      });
+    </script>
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="/main.js"></script>
+    <script>
+      document.addEventListener('DOMContentLoaded', () => {
+        const cartLinks = document.querySelectorAll('a[href="/cart"]');
+        const cartData = localStorage.getItem("cart");
+        if (cartData) {
+          const cartObj = JSON.parse(cartData);
+          cartLinks.forEach(link => {
+            link.href = `/cart/${cartObj._id}`;
+          });
+        }
+      });
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
+
+  </body>
+</html>

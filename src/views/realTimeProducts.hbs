@@ -1,0 +1,69 @@
+<h1 class="center-align">Productos en Tiempo Real</h1>
+<div class="row">
+  <ul id="lista-productos" class="collection">
+    {{#each products.docs}}
+      <li class="collection-item col s12 m6">
+        <p><span
+            class="yellow accent-2"
+            style="border-radius: 10%; padding: 10px 15px; margin-right: 10px; font-weight: bold;"
+          >{{this.nombre}}</span>
+          Precio: ${{this.precio}}
+          | Stock:
+          {{this.stock}}</p>
+      </li>
+    {{/each}}
+  </ul>
+</div>
+<div class="position-relative m-4">
+    <ul class="pagination">
+      {{#if products.hasPrevPage}}
+        <li class="page-item">
+          <a class="page-link" href="/realtimeproducts?page={{products.prevPage}}&&limit=10">Previous</a>
+        </li>
+      {{/if}}
+      {{#if products.hasNextPage}}
+        <li class="page-item">
+          <a class="page-link" href="/realtimeproducts?page={{products.nextPage}}&&limit=10">Next</a>
+        </li>
+      {{/if}}
+    </ul>
+    <p class="btn btn-primary">
+      Current Page:
+      {{products.page}}
+    </p>
+  </div>
+<h2 class="section-title center-align">Agregar Producto</h2>
+
+<form id="form-agregar" class="col s12">
+  <div class="input-field">
+    <input type="text" id="nombre" placeholder="Nombre" required />
+    <label for="nombre" class="active">Nombre</label>
+  </div>
+  <div class="input-field">
+    <input type="number" id="precio" placeholder="Precio" min="0" required />
+    <label for="precio" class="active">Precio</label>
+  </div>
+  <div class="input-field">
+    <input type="number" id="stock" placeholder="Stock" min="1" required />
+    <label for="stock" class="active">Stock</label>
+  </div>
+  <button type="submit" class="btn waves-effect waves-light">Agregar</button>
+</form>
+
+<h2 class="section-title center-align">Eliminar Producto</h2>
+
+<form id="form-eliminar" class="col s12">
+  <div class="input-field">
+    <input
+      type="text"
+      id="nombre-eliminar"
+      placeholder="Nombre del Producto a eliminar"
+      required
+    />
+    <label for="nombre-eliminar" class="active">Nombre del Producto</label>
+  </div>
+  <button
+    type="submit"
+    class="btn waves-effect waves-light red"
+  >Eliminar</button>
+</form>

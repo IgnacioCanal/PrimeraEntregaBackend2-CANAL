@@ -1,0 +1,197 @@
+[
+  {
+    "productId": "e0b7a59d-2b8f-4ad1-aed7-0b47b3a91867",
+    "nombre": "Martillo",
+    "descripción": "Martillo de acero con mango de madera, ideal para tareas de construcción y reparación.",
+    "stock": 10,
+    "código": "MH-001",
+    "categoría": "Herramientas",
+    "precio": 15.5,
+    "thumbnails": [
+      "images/martillo1.jpg",
+      "images/martillo2.jpg"
+    ]
+  },
+  {
+    "productId": "d3d6c1d4-7bb1-4876-bf90-2e83d591b4d3",
+    "nombre": "Llave inglesa",
+    "descripción": "Llave ajustable con cuerpo de acero y apertura de 15 mm.",
+    "stock": 20,
+    "código": "LW-002",
+    "categoría": "Herramientas",
+    "precio": 10,
+    "thumbnails": [
+      "images/llave1.jpg",
+      "images/llave2.jpg"
+    ]
+  },
+  {
+    "productId": "aed82b19-69a2-41fb-b5a4-98d2e0c3d10a",
+    "nombre": "Destornillador",
+    "descripción": "Set de destornilladores con puntas intercambiables, tamaños diversos.",
+    "stock": 25,
+    "código": "DS-003",
+    "categoría": "Herramientas",
+    "precio": 12.75,
+    "thumbnails": [
+      "images/destornillador1.jpg",
+      "images/destornillador2.jpg"
+    ]
+  },
+  {
+    "productId": "4d41b1d9-26c8-4647-a3cf-339e5d775769",
+    "nombre": "Cinta métrica",
+    "descripción": "Cinta métrica de 5 metros con carcasa duradera.",
+    "stock": 15,
+    "código": "CM-004",
+    "categoría": "Herramientas",
+    "precio": 8,
+    "thumbnails": [
+      "images/cinta1.jpg",
+      "images/cinta2.jpg"
+    ]
+  },
+  {
+    "productId": "57c8e8d0-5b8c-45fd-b505-d5eaa4f9fc81",
+    "nombre": "Taladro inalámbrico",
+    "descripción": "Taladro inalámbrico con batería de litio y cargador rápido.",
+    "stock": 8,
+    "código": "TD-005",
+    "categoría": "Herramientas",
+    "precio": 75,
+    "thumbnails": [
+      "images/taladro1.jpg",
+      "images/taladro2.jpg"
+    ]
+  },
+  {
+    "productId": "8a64b4d7-cb1a-4b2c-8914-345e89177cc8",
+    "nombre": "Llave allen",
+    "descripción": "Juego de llaves allen en acero inoxidable, variados tamaños.",
+    "stock": 30,
+    "código": "LA-006",
+    "categoría": "Herramientas",
+    "precio": 9.5,
+    "thumbnails": [
+      "images/llaveallen1.jpg",
+      "images/llaveallen2.jpg"
+    ]
+  },
+  {
+    "productId": "4fbbf0a6-5b8f-49c1-965e-3d6d74dcb29a",
+    "nombre": "Escalera telescópica",
+    "descripción": "Escalera telescópica de aluminio, fácil de transportar.",
+    "stock": 6,
+    "código": "ET-007",
+    "categoría": "Herramientas",
+    "precio": 100,
+    "thumbnails": [
+      "images/escalera1.jpg",
+      "images/escalera2.jpg"
+    ]
+  },
+  {
+    "productId": "9c2a7b1e-64f2-463d-a54e-457a66bca02d",
+    "nombre": "Sierra eléctrica",
+    "descripción": "Sierra eléctrica con motor de alta potencia para cortes precisos.",
+    "stock": 12,
+    "código": "SE-008",
+    "categoría": "Herramientas",
+    "precio": 90,
+    "thumbnails": [
+      "images/sierra1.jpg",
+      "images/sierra2.jpg"
+    ]
+  },
+  {
+    "productId": "6d3b1c9b-d18f-4ad4-9c75-6e44f13b40a6",
+    "nombre": "Nivel de burbuja",
+    "descripción": "Nivel de burbuja profesional con precisión de 0.5 mm.",
+    "stock": 18,
+    "código": "NB-009",
+    "categoría": "Herramientas",
+    "precio": 7.5,
+    "thumbnails": [
+      "images/nivel1.jpg",
+      "images/nivel2.jpg"
+    ]
+  },
+  {
+    "productId": "fbb16e3c-9e89-4796-b503-06db8c4e7b5e",
+    "nombre": "Caja de herramientas",
+    "descripción": "Caja de almacenamiento con múltiples compartimientos.",
+    "stock": 14,
+    "código": "CT-010",
+    "categoría": "Herramientas",
+    "precio": 25,
+    "thumbnails": [
+      "images/caja1.jpg",
+      "images/caja2.jpg"
+    ]
+  },
+  {
+    "productId": "7a85b4d1-d85a-4b86-bbbd-6c3341a8e5f3",
+    "nombre": "Termómetro láser",
+    "descripción": "Termómetro láser para mediciones rápidas de temperatura.",
+    "stock": 10,
+    "código": "TL-011",
+    "categoría": "Herramientas",
+    "precio": 35,
+    "thumbnails": [
+      "images/termometro1.jpg",
+      "images/termometro2.jpg"
+    ]
+  },
+  {
+    "productId": "dca4b75f-0e87-46d9-a6ec-3b37e3bf41f6",
+    "nombre": "Sellador de silicona",
+    "descripción": "Sellador de silicona resistente al agua y a altas temperaturas.",
+    "stock": 20,
+    "código": "SS-012",
+    "categoría": "Materiales",
+    "precio": 5,
+    "thumbnails": [
+      "images/sellador1.jpg",
+      "images/sellador2.jpg"
+    ]
+  },
+  {
+    "productId": "2c6e4a66-7f98-4b16-8cc5-5f84bff06fbe",
+    "nombre": "Pistola de calor",
+    "descripción": "Pistola de calor para trabajos de eliminación de pintura y adhesivos.",
+    "stock": 12,
+    "código": "PH-013",
+    "categoría": "Herramientas",
+    "precio": 40,
+    "thumbnails": [
+      "images/pistola1.jpg",
+      "images/pistola2.jpg"
+    ]
+  },
+  {
+    "productId": "3b9e5394-1c18-4e0d-bc6a-dc3bdb6d87f2",
+    "nombre": "Nivel láser",
+    "descripción": "Nivel láser con precisión de hasta 10 metros.",
+    "stock": 8,
+    "código": "NL-014",
+    "categoría": "Herramientas",
+    "precio": 50,
+    "thumbnails": [
+      "images/nivellaser1.jpg",
+      "images/nivellaser2.jpg"
+    ]
+  },
+  {
+    "productId": "1c8a764e-5f3c-45c8-b7c6-ff1e14b23fd2",
+    "nombre": "Alfombra antideslizante",
+    "descripción": "Alfombra antideslizante para áreas húmedas y resbaladizas.",
+    "stock": 25,
+    "código": "AA-015",
+    "categoría": "Seguridad",
+    "precio": 20,
+    "thumbnails": [
+      "images/alfombra1.jpg",
+      "images/alfombra2.jpg"
+    ]
+  }
+]

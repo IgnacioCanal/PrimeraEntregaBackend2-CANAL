@@ -1,5 +1,4 @@
 import { Schema, model } from "mongoose";
-import { _id } from "./carts.model.js";
 
 const userSchema = new Schema({
   first_name: { type: String, required: true },
@@ -7,7 +6,8 @@ const userSchema = new Schema({
   age: { type: Number, required: true },
   email: { type: String, required: true, unique: true },
   password: { type: String, required: true },
-  cartId: _id
+  cartId:{ type:Schema.Types.ObjectId, ref:"Cart"},
+  role: { type: String, default: "user" },
 });
 
 export const userModel = model("user", userSchema);

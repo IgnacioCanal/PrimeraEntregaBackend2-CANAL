@@ -1,5 +1,6 @@
 import passport from "passport";
 import { Strategy as JWTStrategy, ExtractJwt } from "passport-jwt";
+import { Strategy as LocalStrategy } from "passport-local";
 import { SECRET } from "../server.js";
 
 import { userModel } from "../models/user.model.js";
@@ -15,13 +16,13 @@ export function initializePassport() {
         const { first_name, last_name, age } = req.body;
 
         if (!first_name || !last_name || !age)
-          return done(null, false, { message: "All fields are required" });
+          return done(null, false, { message: "Todos los campos son requeridos" });
 
         try {
           const userExists = await userModel.findOne({ email }).lean();
 
           if (userExists)
-            return done(null, false, { message: "User already exists" });
+            return done(null, false, { message: "Usuario ya existe" });
 
           const hashedPassword = await hashPassword(password);
 
@@ -51,19 +52,13 @@ export function initializePassport() {
         try {
           const user = await userModel.findOne({ email }).lean();
 
-          console.log(user);
+          if (!user) 
+            return done(null, false, { message: "Usuario no encontrado" });
 
-          if (!user) return done(null, false, { message: "User not found" });
-
-          const isPasswordCorrect = await verifyPassword(
-            password,
-            user.password
-          );
-
-          console.log(isPasswordCorrect);
+          const isPasswordCorrect = await verifyPassword( password, user.password );
 
           if (!isPasswordCorrect)
-            return done(null, false, { message: "Invalid password" });
+            return done(null, false, { message: "Password invalido" });
 
           return done(null, user);
         } catch (error) {
@@ -83,7 +78,7 @@ export function initializePassport() {
         try {
           const user = await userModel.findOne({ email }).lean();
 
-          if (!user) return done(null, false, { message: "User not found" });
+          if (!user) return done(null, false, { message: "Usuario no encontrado" });
 
           const hashedPassword = await hashPassword(password);
 
@@ -92,6 +87,31 @@ export function initializePassport() {
             { password: hashedPassword }
           );
 
+          return done(null, user);
+        } catch (error) {
+          return done(error);
+        }
+      }
+    )
+  );
+
+  const cookieExtractor = (req) => {
+    let token = null;
+    if (req && req.cookies) token = req.cookies["token"];
+    return token;
+  };
+
+  passport.use(
+    "jwt",
+    new JWTStrategy(
+      {
+        jwtFromRequest: ExtractJwt.fromExtractors([cookieExtractor]),
+        secretOrKey: SECRET,
+      },
+      async (jwtPayload, done) => {
+        try {
+          const user = await userModel.findById(jwtPayload._id).lean();
+          if (!user) return done(null, false);
           return done(null, user);
         } catch (error) {
           return done(error);

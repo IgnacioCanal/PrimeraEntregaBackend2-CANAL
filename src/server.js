@@ -12,6 +12,7 @@ import { initializePassport } from "./config/passport.config.js";
 import MongoStore from "connect-mongo";
 
 
+
 import { __dirname } from "./dirname.js";
 import { productsRouter } from "./routes/products.router.js";
 import { productsService } from "./services/products.service.js";
@@ -30,13 +31,20 @@ app.use(cookieParser());
 app.use(session({
   secret: SECRET,
   store: MongoStore.create({
-    mongoUrl: connectDB(),}),
+    mongoUrl: "mongodb+srv://..:..@cluster0.tccqu.mongodb.net/test?retryWrites=true&w=majority&appName=Cluster0",}),
   resave: false,
   saveUninitialized: false,
 }));
+
 initializePassport();
 app.use(passport.initialize());
 app.use(passport.session());
+app.use((req, res, next) => {
+  res.locals.currentUser = req.user || null;
+  next();
+});
+
+
 
 const hbs = exphbs.create({
   extname: ".hbs",
@@ -56,6 +64,19 @@ app.use("/", viewsRoutes);
 app.use("/api/products", productsRouter);
 app.use("/api/carts", cartsRouter);
 app.use("/api/sessions", sessionRouter);
+
+app.get("/login", (req, res) => {
+  res.render("login", { error: req.query.error });
+});
+app.get("/register", (req, res) => {
+  res.render("register", { error: req.query.error });
+});
+app.get("/profile", (req, res) => {
+  if (!req.session.user) {
+    return res.redirect("/login");
+  }
+  res.render("profile", { user: req.session.user });
+});
 
 app.use((err, req, res, next) => {
   console.error("Error:", err.message);

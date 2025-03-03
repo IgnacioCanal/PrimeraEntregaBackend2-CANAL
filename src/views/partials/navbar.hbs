@@ -1,12 +1,10 @@
 <ul id="dropdown1" class="dropdown-content">
-  {{#if carts}}
-    {{#each carts}}
-      <li>
-        <a href="/cart/{{this._id}}" data-cartid="{{this._id}}">
-          Carrito {{this._id}} ({{this.products.length}} productos)
-        </a>
-      </li>
-    {{/each}}
+  {{#if currentUser}}
+    <li>
+      <a href="/cart/{{currentUser.cartId}}">
+        Mi Carrito
+      </a>
+    </li>
   {{else}}
     <li><a href="#!">No hay carritos disponibles</a></li>
   {{/if}}
@@ -19,7 +17,25 @@
     <ul id="nav-mobile" class="left hide-on-small-and-down">
       <li><a href="/">Lista de Productos</a></li>
       <li><a href="/realtimeproducts">Productos en Tiempo Real</a></li>
-      <li><a class="dropdown-trigger" href="#!" data-target="dropdown1">Carritos<i class="material-icons right">🔽</i></a></li>
+      <li>
+        {{#if currentUser}}
+          <a href="/cart/{{currentUser.cartId}}">Mi Carrito</a>
+        {{else}}
+          <a href="/cart">Carrito</a>
+        {{/if}}
+      </li>
+      <li>
+        {{#if currentUser}}
+          <a href="/profile">Perfil</a>
+        {{else}}
+          <a href="/login">Login</a>
+        {{/if}}
+      </li>
+      <li>
+        {{#if currentUser}}
+          <a href="/logout">Logout</a>
+        {{/if}}
+      </li>
     </ul>
   </div>
 </nav>
@@ -27,5 +43,23 @@
 <ul class="sidenav" id="mobile-nav">
   <li><a href="/">Lista de Productos</a></li>
   <li><a href="/realtimeproducts">Productos en Tiempo Real</a></li>
-  <li><a href="/cart">Carrito (<span id="cart-count">{{cartCount}}</span>)</a></li>
+  <li>
+    {{#if currentUser}}
+      <a href="/cart/{{currentUser.cartId}}">Mi Carrito</a>
+    {{else}}
+      <a href="/cart">Carrito</a>
+    {{/if}}
+  </li>
+  <li>
+    {{#if currentUser}}
+      <a href="/profile">Perfil</a>
+    {{else}}
+      <a href="/login">Login</a>
+    {{/if}}
+  </li>
+  <li>
+    {{#if currentUser}}
+      <a href="/logout">Logout</a>
+    {{/if}}
+  </li>
 </ul>

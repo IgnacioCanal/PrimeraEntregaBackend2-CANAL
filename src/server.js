@@ -5,19 +5,38 @@ import { createServer } from "http";
 import { Server } from "socket.io";
 import exphbs from "express-handlebars";
 import connectDB from "./config/mongodb.js";
+import cookieParser from "cookie-parser";
+import session from "express-session";
+import passport from "passport";
+import { initializePassport } from "./config/passport.config.js";
+import MongoStore from "connect-mongo";
+
 
 import { __dirname } from "./dirname.js";
 import { productsRouter } from "./routes/products.router.js";
 import { productsService } from "./services/products.service.js";
 import { cartsRouter } from "./routes/carts.router.js";
 import { viewsRoutes } from "./routes/views.routes.js";
+import { sessionRouter } from "./routes/session.routes.js";
 
 const app = express();
+export const SECRET = "clavesecreta";
 
 app.use(morgan("dev"));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static(path.resolve(__dirname, "../public")));
+app.use(cookieParser());
+app.use(session({
+  secret: SECRET,
+  store: MongoStore.create({
+    mongoUrl: connectDB(),}),
+  resave: false,
+  saveUninitialized: false,
+}));
+initializePassport();
+app.use(passport.initialize());
+app.use(passport.session());
 
 const hbs = exphbs.create({
   extname: ".hbs",
@@ -36,6 +55,7 @@ app.set("views", path.join(__dirname, "views"));
 app.use("/", viewsRoutes);
 app.use("/api/products", productsRouter);
 app.use("/api/carts", cartsRouter);
+app.use("/api/sessions", sessionRouter);
 
 app.use((err, req, res, next) => {
   console.error("Error:", err.message);

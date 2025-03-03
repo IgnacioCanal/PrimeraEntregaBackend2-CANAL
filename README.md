@@ -1,8 +1,8 @@
-# Proyecto Final Backend 1
+# Proyecto Final Backend 2
 
 ## Descripción
 
-**Preentrega2-CANAL** es una aplicación para la gestión de productos y carritos de compras, creada con **Node.js**, **Express**, y **Socket.io**. Permite realizar operaciones CRUD (Crear, Leer, Actualizar, Eliminar) sobre productos y carritos. Además, se incorpora una experiencia interactiva con **WebSockets**, actualizando la interfaz de usuario en tiempo real sin necesidad de recargar la página.
+**PrimerEntrega** es una aplicación para la gestión de productos y carritos de compras, creada con **Node.js**, **Express**, y **Socket.io**. Permite realizar operaciones CRUD (Crear, Leer, Actualizar, Eliminar) sobre productos y carritos. Además, se incorpora una experiencia interactiva con **WebSockets**, actualizando la interfaz de usuario en tiempo real sin necesidad de recargar la página.
 
 La aplicación utiliza **Handlebars (HBS)** para renderizar las vistas de productos de forma dinámica, mejorando el rendimiento y la experiencia del usuario. La integración de **Socket.io** facilita la sincronización en tiempo real de los productos y carritos entre todos los usuarios conectados, permitiendo un entorno de compra más fluido.
 

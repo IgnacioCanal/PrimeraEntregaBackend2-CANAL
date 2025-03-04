@@ -10,7 +10,7 @@ viewsRoutes.get("/", async (req, res) => {
     const products = await productsService.getAll(page, limit);
     const carts = await cartService.getAllCarts();
 
-    res.render("home", { products, carts });
+    res.render("home", {title:"Inicio", products, carts });
   } catch (error) {
     console.error("Error al obtener los productos:", error.message);
     res.status(500).json({ error: "Error al obtener los productos" });
@@ -22,7 +22,7 @@ viewsRoutes.get("/realtimeproducts", async (req, res) => {
   try {
     const products = await productsService.getAll(page, limit);
 
-    res.render("realTimeProducts", { products });
+    res.render("realTimeProducts", {title:"Productos en Tiempo Real", products });
   } catch (error) {
     console.error("Error al obtener los productos:", error.message);
     res.status(500).json({ error: "Error al obtener los productos" });
@@ -40,7 +40,7 @@ viewsRoutes.get("/cart/:cartId", async (req, res) => {
 
     const cartCount = cart.products.reduce((acc, item) => acc + item.quantity, 0);
 
-    res.render("cart", {carts, cartCount, products: cart.products});
+    res.render("cart", {title:"Carrito", carts, cartCount, products: cart.products});
   } catch (error) {
     console.error("Error al obtener el carrito:", error.message);
     res.status(500).json({ error: "Error al obtener el carrito" });

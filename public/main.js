@@ -76,8 +76,10 @@ if (formEliminar) {
       }).showToast();
       return;
     }
-    socket.emit("eliminarProducto", { nombre, currentPage });
-    e.target.reset();
+    if (confirm(`¿Estás seguro de que deseas eliminar el producto "${nombre}"?`)) {
+      socket.emit("eliminarProducto", { nombre, currentPage });
+      e.target.reset();
+    }
   });
 }
 

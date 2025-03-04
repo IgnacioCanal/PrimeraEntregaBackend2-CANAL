@@ -16,7 +16,7 @@ sessionRouter.post("/login",passport.authenticate("login", {failureRedirect: "/l
 
     res.cookie("token", token, { httpOnly: true, secure: true });
 
-    res.redirect("/profile");
+    res.redirect("/");
   }
 );
 

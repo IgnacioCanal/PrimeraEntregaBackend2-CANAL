@@ -1,15 +1,3 @@
-<ul id="dropdown1" class="dropdown-content">
-  {{#if currentUser}}
-    <li>
-      <a href="/cart/{{currentUser.cartId}}">
-        Mi Carrito
-      </a>
-    </li>
-  {{else}}
-    <li><a href="#!">No hay carritos disponibles</a></li>
-  {{/if}}
-</ul>
-
 <nav>
   <div class="nav-wrapper">
     <a href="#" class="brand-logo right">Victornillo Ferretería</a>
@@ -19,7 +7,7 @@
       <li><a href="/realtimeproducts">Productos en Tiempo Real</a></li>
       <li>
         {{#if currentUser}}
-          <a href="/cart/{{currentUser.cartId}}">Mi Carrito</a>
+          <a href="/cart/{{currentUser.cartId}}">Mi Carrito <span class="new badge" data-badge-caption="">{{cartCount}}</span></a>
         {{else}}
           <a href="/cart">Carrito</a>
         {{/if}}
@@ -45,7 +33,7 @@
   <li><a href="/realtimeproducts">Productos en Tiempo Real</a></li>
   <li>
     {{#if currentUser}}
-      <a href="/cart/{{currentUser.cartId}}">Mi Carrito</a>
+      <a href="/cart/{{currentUser.cartId}}">Mi Carrito <span class="new badge" data-badge-caption="">{{cartCount}}</span></a>
     {{else}}
       <a href="/cart">Carrito</a>
     {{/if}}

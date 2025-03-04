@@ -2,7 +2,7 @@
 
 {{#if products.docs.length}}
   <p>Página {{products.page}} de {{products.totalPages}}</p>
-  <button id="reset-cart-btn" class="btn">Crear nuevo carrito</button>
+  <a href="/cart/{{currentUser.cartId}}" class="btn waves-effect waves-light green">Ver mi carrito</a>
   <div class="row">
     {{#each products.docs}}
       <div class="col s12 m6 l4">
@@ -16,7 +16,7 @@
             <p class="content-padding">Stock: {{this.stock}}</p>
           </div>
           <div class="card-action center-align">
-            <a href="#" class="btn btn-custom hoverable" onclick="addToCart('{{this._id}}')">Agregar al carrito</a>
+            <a href="#" class="btn waves-effect waves-light green" onclick="addToCart('{{this._id}}')">Agregar al carrito</a>
           </div>
         </div>
       </div>

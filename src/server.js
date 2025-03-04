@@ -18,6 +18,7 @@ import { viewsRoutes } from "./routes/views.routes.js";
 import { sessionRouter } from "./routes/session.routes.js";
 import { initSocket } from "./socket.js";
 import { authRouter } from "./routes/auth.routes.js";
+import { cartService } from "./services/carts.service.js";
 
 const app = express();
 export const SECRET = "clavesecreta";
@@ -31,6 +32,9 @@ const hbs = exphbs.create({
     allowProtoMethodsByDefault: true,
   },
 });
+
+hbs.handlebars.registerHelper("multiply", (a, b) => a * b);
+
 app.engine("hbs", hbs.engine);
 app.set("view engine", "hbs");
 app.set("views", path.join(__dirname, "views"));
@@ -71,6 +75,20 @@ const startServer = async () => {
     next();
   });
 
+  app.use(async (req, res, next) => {
+    if (req.user) {
+      try {
+        const cart = await cartService.getCartById(req.user.cartId);
+        res.locals.cartCount = cart ? cart.products.reduce((acc, item) => acc + item.quantity, 0) : 0;
+      } catch (error) {
+        console.error("Error al obtener cartCount:", error);
+        res.locals.cartCount = 0;
+      }
+    } else {
+      res.locals.cartCount = 0;
+    }
+    next();
+  });
 
   app.use("/", viewsRoutes);
   app.use("/api/products", productsRouter);

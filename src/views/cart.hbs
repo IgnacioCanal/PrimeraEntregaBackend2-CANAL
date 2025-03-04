@@ -13,9 +13,9 @@
           <tr>
             <td>{{this.product.nombre}}</td>
             <td>{{this.quantity}}</td>
-            <td>
-              <a href="#!" class="btn red lighten-1 waves-effect waves-light delete-product-btn" data-id="{{this.product.id}}">Eliminar</a>
-            </td>
+            <td>${{this.product.precio}}</td>
+            <td>${{multiply this.quantity this.product.precio}}</td>
+            <td><a href="#!" class="btn red waves-effect delete-product-btn" data-id="{{this.product.id}}" >Eliminar</a></td>
           </tr>
         {{/each}}
       </tbody>
@@ -23,7 +23,10 @@
   </div>
 
   <div class="right-align" style="margin-top: 20px;">
-    <a href="#!" class="btn red darken-2 waves-effect waves-light delete-all-btn">Eliminar Todos</a>
+    <a
+      href="#!"
+      class="btn red darken-2 waves-effect waves-light delete-all-btn"
+    >Eliminar Todos</a>
   </div>
 {{else}}
   <p>El carrito está vacío.</p>

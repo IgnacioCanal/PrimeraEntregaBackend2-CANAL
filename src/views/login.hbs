@@ -32,4 +32,14 @@
       ¿Olvidaste tu contraseña? <a href="/restore-password">Recupérala aquí</a>
     </p>
   </div>
+  <script>
+  document.querySelector("form").addEventListener("submit", (e) => {
+    const email = document.getElementById("email").value;
+    const password = document.getElementById("password").value;
+    if (!email || !password) {
+      e.preventDefault();
+      alert("Por favor, completa todos los campos.");
+    }
+  });
+</script>
 </div>

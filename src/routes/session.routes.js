@@ -22,7 +22,7 @@ sessionRouter.post("/login",passport.authenticate("login", {failureRedirect: "/l
 
 
 
-sessionRouter.get("/current", passport.authenticate("jwt", { session: false }), (req, res) => {
+sessionRouter.get("/current", passport.authenticate("current", { session: false }), (req, res) => {
   res.json({usuario: req.user});
 });
 

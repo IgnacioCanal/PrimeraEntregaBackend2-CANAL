@@ -5,6 +5,7 @@ import { SECRET } from "../server.js";
 
 import { userModel } from "../models/user.model.js";
 import { hashPassword, verifyPassword } from "../utils/password.utils.js";
+import { cartService } from "../services/carts.service.js";
 
 export function initializePassport() {
   passport.use("register",new LocalStrategy(
@@ -25,6 +26,7 @@ export function initializePassport() {
             return done(null, false, { message: "Usuario ya existe" });
 
           const hashedPassword = await hashPassword(password);
+          const newCart = await cartService.createCart();
 
           const user = await userModel.create({
             first_name,
@@ -32,6 +34,7 @@ export function initializePassport() {
             age,
             email,
             password: hashedPassword,
+            cartId: newCart._id,
           });
 
           done(null, user);
@@ -102,7 +105,7 @@ export function initializePassport() {
   };
 
   passport.use(
-    "jwt",
+    "current",
     new JWTStrategy(
       {
         jwtFromRequest: ExtractJwt.fromExtractors([cookieExtractor]),

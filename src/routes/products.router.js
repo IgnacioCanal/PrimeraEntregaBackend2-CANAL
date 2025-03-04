@@ -1,6 +1,6 @@
 import { Router } from "express";
 import { productsService } from "../services/products.service.js";
-import { io } from "../server.js";
+import { io } from "../socket.js";
 
 export const productsRouter = Router();
 

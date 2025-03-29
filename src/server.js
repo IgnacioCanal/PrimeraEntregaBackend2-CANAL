@@ -12,6 +12,7 @@ import MongoStore from "connect-mongo";
 import mongoose from "mongoose";
 
 import { __dirname } from "./dirname.js";
+import { CONFIG } from "./config/config.js";
 import { productsRouter } from "./routes/products.router.js";
 import { cartsRouter } from "./routes/carts.router.js";
 import { viewsRoutes } from "./routes/views.routes.js";
@@ -111,8 +112,8 @@ const startServer = async () => {
 
 
 
-  server.listen(8080, () => {
-    console.log("Server running on port http://localhost:8080");
+  server.listen(CONFIG.PORT, () => {
+    console.log(`Server running on port http://localhost:${CONFIG.PORT}`);
   });
 };
 

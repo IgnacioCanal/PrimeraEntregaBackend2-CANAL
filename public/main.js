@@ -86,24 +86,19 @@ if (formEliminar) {
 
 async function addToCart(productId) {
   try {
-    let cart = getCartFromLocalStorage();
-    if (!cart) {
-      cart = await createNewCart();
-      if (!cart) {
-        throw new Error("No se pudo crear el carrito");
-      }
+    const cartId = userCartId;
+
+    if (!cartId) {
+      throw new Error("No se encontró el ID del carrito del usuario logueado");
     }
-    const cartId = cart._id;
+
     const response = await fetch(`/api/carts/${cartId}/products/${productId}`, {
       method: "POST",
     });
 
     if (response.ok) {
-      const updateCart = await response.json();
-      console.log("Producto agregado al carrito:", updateCart);
-
-      saveCartToLocalStorage(updateCart);
-      updateCartCounter(updateCart.products.reduce((acc, item) => acc + item.quantity, 0));
+      const updatedCart = await response.json();
+      console.log("Producto agregado al carrito:", updatedCart);
 
       Toastify({
         text: "Producto agregado al carrito",
@@ -112,6 +107,7 @@ async function addToCart(productId) {
         position: "right",
         backgroundColor: "linear-gradient(to right, #00b09b, #96c93d)",
       }).showToast();
+      window.location.reload();
     } else {
       const errorData = await response.json();
       Toastify({
@@ -125,53 +121,19 @@ async function addToCart(productId) {
   } catch (error) {
     console.error("Error al agregar al carrito:", error);
     Toastify({
-      text: "Error al agregar el producto al carrito",
+      text: "Error al agregar el producto al carrito: " + error.message,
       duration: 3000,
       gravity: "top",
       position: "right",
       backgroundColor: "linear-gradient(to right, #ff5f6d, #ffc371)",
     }).showToast();
   }
-}
-
-async function createNewCart() {
-  try {
-    const response = await fetch("/api/carts", { method: "POST" });
-    if (!response.ok) {
-      const errorData = await response.json();
-      console.error("Error al crear carrito", errorData);
-      throw new Error("Error al crear el carrito");
-    }
-    const newCart = await response.json();
-    saveCartToLocalStorage(newCart);
-    return newCart;
-  } catch (error) {
-    console.error("Error al crear el carrito:", error);
-    Toastify({
-      text: "Error al crear el carrito.",
-      duration: 3000,
-      gravity: "top",
-      position: "right",
-      backgroundColor: "linear-gradient(to right, #ff5f6d, #ffc371)",
-    }).showToast();
-  }
-}
-
-function getCartFromLocalStorage() {
-  const cart = localStorage.getItem("cart");
-  return cart ? JSON.parse(cart) : null;
 }
 
 function saveCartToLocalStorage(cart) {
   localStorage.setItem("cart", JSON.stringify(cart));
 }
 
-function updateCartCounter(cartCount) {
-  const cartCountElement = document.getElementById("cart-count");
-  if (cartCountElement) {
-    cartCountElement.innerText = cartCount;
-  }
-}
 
 async function resetCart() {
   localStorage.removeItem("cart");
@@ -198,14 +160,6 @@ async function resetCart() {
   }
 }
 
-function getCartCount() {
-  const cart = getCartFromLocalStorage();
-
-  return cart ? cart.products.reduce((acc, item) => acc + item.quantity, 0) : 0;
-
-}
-
-
 
 document.addEventListener("DOMContentLoaded", () => {
   const resetCartBtn = document.getElementById("reset-cart-btn");
@@ -225,11 +179,10 @@ document.addEventListener("DOMContentLoaded", () => {
       e.preventDefault();
 
       const productId = btn.getAttribute("data-id");
-
-      const cart = getCartFromLocalStorage();
-      if (!cart) {
+      const cartId = userCartId;
+      if (!cartId) {
         Toastify({
-          text: "No se encontró carrito almacenado.",
+          text: "No se encontró el ID del carrito del usuario logueado.",
           duration: 3000,
           gravity: "top",
           position: "right",
@@ -237,19 +190,13 @@ document.addEventListener("DOMContentLoaded", () => {
         }).showToast();
         return;
       }
-      const cartId = cart._id;
       try {
 
         const response = await fetch(`/api/carts/${cartId}/products/${productId}`, {
           method: "DELETE",
         });
         if (response.ok) {
-          const updatedCart = await response.json();
-
-          saveCartToLocalStorage(updatedCart);
-          updateCartCounter(
-            updatedCart.products.reduce((acc, item) => acc + item.quantity, 0)
-          );
+          const data = await response.json();
           Toastify({
             text: "Producto eliminado del carrito.",
             duration: 3000,
@@ -257,7 +204,6 @@ document.addEventListener("DOMContentLoaded", () => {
             position: "right",
             backgroundColor: "linear-gradient(to right, #00b09b, #96c93d)",
           }).showToast();
-
           window.location.reload();
         } else {
           const errorData = await response.json();
@@ -288,10 +234,11 @@ document.addEventListener("DOMContentLoaded", () => {
   if (deleteAllBtn) {
     deleteAllBtn.addEventListener("click", async (e) => {
       e.preventDefault();
-      const cart = getCartFromLocalStorage();
-      if (!cart) {
+
+      const cartId = userCartId;
+      if (!cartId) {
         Toastify({
-          text: "No se encontró carrito almacenado.",
+          text: "No se encontró el ID del carrito del usuario logueado.",
           duration: 3000,
           gravity: "top",
           position: "right",
@@ -299,7 +246,6 @@ document.addEventListener("DOMContentLoaded", () => {
         }).showToast();
         return;
       }
-      const cartId = cart._id;
       try {
 
         const response = await fetch(`/api/carts/${cartId}`, {
@@ -307,12 +253,7 @@ document.addEventListener("DOMContentLoaded", () => {
         });
         if (response.ok) {
           const data = await response.json();
-          if (data.clearedCart) {
-            saveCartToLocalStorage(data.clearedCart);
-          } else {
-            localStorage.removeItem("cart");
-          }
-          updateCartCounter(0);
+          
           Toastify({
             text: "Todos los productos han sido eliminados del carrito.",
             duration: 3000,
@@ -365,5 +306,3 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 });
 
-
-updateCartCounter(getCartCount());

@@ -5,6 +5,8 @@
         <tr>
           <th>Producto</th>
           <th>Cantidad</th>
+          <th>Precio Unitario</th>
+          <th>Subtotal</th>
           <th>Acciones</th>
         </tr>
       </thead>
@@ -15,7 +17,11 @@
             <td>{{this.quantity}}</td>
             <td>${{this.product.precio}}</td>
             <td>${{multiply this.quantity this.product.precio}}</td>
-            <td><a href="#!" class="btn red waves-effect delete-product-btn" data-id="{{this.product._id}}" >Eliminar</a></td>
+            <td><a
+                href="#!"
+                class="btn red waves-effect delete-product-btn"
+                data-id="{{this.product._id}}"
+              >Eliminar</a></td>
           </tr>
         {{/each}}
       </tbody>

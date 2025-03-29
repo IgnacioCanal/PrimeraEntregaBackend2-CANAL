@@ -5,25 +5,13 @@
     <ul id="nav-mobile" class="left hide-on-small-and-down">
       <li><a href="/">Lista de Productos</a></li>
       <li><a href="/realtimeproducts">Productos en Tiempo Real</a></li>
-      <li>
         {{#if currentUser}}
-          <a href="/cart/{{currentUser.cartId}}">Mi Carrito <span class="new badge" data-badge-caption="">{{cartCount}}</span></a>
-        {{else}}
-          <a href="/cart">Carrito</a>
-        {{/if}}
-      </li>
-      <li>
-        {{#if currentUser}}
-          <a href="/profile">Perfil</a>
-        {{else}}
-          <a href="/login">Login</a>
-        {{/if}}
-      </li>
-      <li>
-        {{#if currentUser}}
-          <a href="/logout">Logout</a>
-        {{/if}}
-      </li>
+    <li><a href="/cart/{{currentUser.cartId}}">Mi Carrito <span class="new badge" data-badge-caption="">{{cartCount}}</span></a></li>
+    <li><a href="/profile">Perfil</a></li>
+    <li><a href="/api/sessions/logout">Logout</a></li>
+  {{else}}
+    <li><a href="/login">Login</a></li>
+  {{/if}}
     </ul>
   </div>
 </nav>
@@ -31,23 +19,11 @@
 <ul class="sidenav" id="mobile-nav">
   <li><a href="/">Lista de Productos</a></li>
   <li><a href="/realtimeproducts">Productos en Tiempo Real</a></li>
-  <li>
     {{#if currentUser}}
-      <a href="/cart/{{currentUser.cartId}}">Mi Carrito <span class="new badge" data-badge-caption="">{{cartCount}}</span></a>
-    {{else}}
-      <a href="/cart">Carrito</a>
-    {{/if}}
-  </li>
-  <li>
-    {{#if currentUser}}
-      <a href="/profile">Perfil</a>
-    {{else}}
-      <a href="/login">Login</a>
-    {{/if}}
-  </li>
-  <li>
-    {{#if currentUser}}
-      <a href="/logout">Logout</a>
-    {{/if}}
-  </li>
+    <li><a href="/cart/{{currentUser.cartId}}">Mi Carrito <span class="new badge" data-badge-caption="">{{cartCount}}</span></a></li>
+    <li><a href="/profile">Perfil</a></li>
+    <li><a href="/api/sessions/logout">Logout</a></li>
+  {{else}}
+    <li><a href="/login">Login</a></li>
+  {{/if}}
 </ul>

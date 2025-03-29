@@ -5,11 +5,10 @@ import { createServer } from "http";
 import exphbs from "express-handlebars";
 import connectDB from "./config/mongodb.js";
 import cookieParser from "cookie-parser";
-import session from "express-session";
 import passport from "passport";
 import { initializePassport } from "./config/passport.config.js";
-import MongoStore from "connect-mongo";
-import mongoose from "mongoose";
+import jwt from "jsonwebtoken";
+import { userModel } from "./models/user.model.js";
 
 import { __dirname } from "./dirname.js";
 import { CONFIG } from "./config/config.js";
@@ -44,26 +43,8 @@ const startServer = async () => {
 
   await connectDB();
 
-
-  app.use(
-    session({
-      secret: SECRET,
-      store: MongoStore.create({
-        client: mongoose.connection.getClient(),
-        ttl: 24 * 60 * 60,
-      }),
-      resave: false,
-      saveUninitialized: false,
-      cookie: {
-        maxAge: 24 * 60 * 60 * 1000,
-      }
-    })
-  );
-
-
   initializePassport();
   app.use(passport.initialize());
-  app.use(passport.session());
 
 
   app.use(morgan("dev"));
@@ -71,25 +52,30 @@ const startServer = async () => {
   app.use(express.urlencoded({ extended: true }));
   app.use(express.static(path.resolve(__dirname, "../public")));
   app.use(cookieParser());
-  app.use((req, res, next) => {
-    res.locals.currentUser = req.user || null;
-    next();
-  });
-
   app.use(async (req, res, next) => {
-    if (req.user) {
+    if (req.cookies.token) {
       try {
-        const cart = await cartService.getCartById(req.user.cartId);
-        res.locals.cartCount = cart ? cart.products.reduce((acc, item) => acc + item.quantity, 0) : 0;
+        const decoded = jwt.verify(req.cookies.token, SECRET);
+        const user = await userModel.findById(decoded._id).lean();
+        res.locals.currentUser = user || null;
+        if (user) {
+          const cart = await cartService.getCartById(user.cartId);
+          res.locals.cartCount = cart ? cart.products.reduce((acc, item) => acc + item.quantity, 0) : 0;
+        } else {
+          res.locals.cartCount = 0;
+        }
       } catch (error) {
-        console.error("Error al obtener cartCount:", error);
+        console.error("Error en middleware de autenticación:", error);
+        res.locals.currentUser = null;
         res.locals.cartCount = 0;
       }
     } else {
+      res.locals.currentUser = null;
       res.locals.cartCount = 0;
     }
     next();
   });
+
 
   app.use("/", viewsRoutes);
   app.use("/api/products", productsRouter);
@@ -100,11 +86,7 @@ const startServer = async () => {
 
   app.use((err, req, res, next) => {
     console.error("Error:", err.message);
-    if (req.accepts("html")) {
-      res.status(500).render("error", { message: "Ocurrió un error interno en el servidor" });
-    } else {
-      res.status(500).json({ error: "Ocurrió un error interno en el servidor" });
-    }
+    res.status(500).send("Ocurrió un error interno en el servidor");
   });
 
   const server = createServer(app);

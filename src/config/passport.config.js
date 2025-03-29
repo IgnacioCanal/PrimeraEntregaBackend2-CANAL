@@ -123,12 +123,4 @@ export function initializePassport() {
     )
   );
 
-  passport.serializeUser((user, done) => {
-    done(null, user._id);
-  });
-
-  passport.deserializeUser(async (id, done) => {
-    const user = await userModel.findById(id).lean();
-    done(null, user);
-  });
 }

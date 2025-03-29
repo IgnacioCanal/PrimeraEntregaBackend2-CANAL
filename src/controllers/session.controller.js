@@ -5,20 +5,21 @@ import UserDTO from "../DTO/user.modelDTO.js";
 
 class SessionController {
   register(req, res, next) {
-    passport.authenticate("register", {
-      failureRedirect: "/register?message=fail-register",
-      successRedirect: "/login",
+    passport.authenticate("register", { session: false }, (err, user, info) => {
+      if (err) return next(err);
+      if (!user) return res.redirect("/register?message=fail-register");
+      res.redirect("/login");
     })(req, res, next);
   }
 
   login(req, res, next) {
-    passport.authenticate("login", {
-      failureRedirect: "/login?error=Usuario o contraseña incorrectos",
-    })(req, res, () => {
-      const token = jwt.sign(req.user, SECRET, { expiresIn: "1d" });
-      res.cookie("token", token, { httpOnly: true, secure: process.env.NODE_ENV === "production"});
+    passport.authenticate("login", { session: false }, (err, user, info) => {
+      if (err) return next(err);
+      if (!user) return res.redirect("/login?error=Usuario o contraseña incorrectos");
+      const token = jwt.sign({ _id: user._id },SECRET, { expiresIn: "1d" });
+      res.cookie("token", token, { httpOnly: true, secure: process.env.NODE_ENV === "production" });
       res.redirect("/");
-    });
+    })(req, res, next);
   }
 
   async getCurrentUser(req, res) {
@@ -31,16 +32,17 @@ class SessionController {
   }
 
   restorePassword(req, res, next) {
-    passport.authenticate("restore-password", {
-      failureRedirect: "/restore-password",
-    })(req, res, () => {
-      res.redirect("/login");
-    });
+    passport.authenticate("restore-password", { session: false }, (err, user, info) => {
+      if (err) return next(err);
+      if (!user) return res.redirect("/restore-password?error=Usuario no encontrado");
+      res.redirect("/login?message=Contraseña restaurada exitosamente");
+    })(req, res, next);
   }
 
   logout(req, res) {
-    res.clearCookie("token");
-    req.session.destroy();
+    if (req.cookies.token) {
+      res.clearCookie("token");
+    }
     res.redirect("/");
   }
 }

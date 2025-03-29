@@ -7,6 +7,11 @@
         {{error}}
       </div>
     {{/if}}
+    {{#if message}}
+      <div class="card-panel green lighten-2 white-text center-align">
+        {{message}}
+      </div>
+    {{/if}}
 
     <form action="/api/sessions/login" method="POST">
       <div class="input-field">

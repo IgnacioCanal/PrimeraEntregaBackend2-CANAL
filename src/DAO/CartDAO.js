@@ -17,8 +17,9 @@ class CartDAO {
     const cart = await this.getCartById(cartId);
     if (!cart) throw new Error("Carrito no encontrado");
 
+    const productIdStr = productId.toString();
     const productIndex = cart.products.findIndex(
-      (item) => item.product.toString() === productId
+      (item) => item.product._id.toString() === productIdStr
     );
 
     if (productIndex > -1) {

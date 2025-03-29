@@ -31,17 +31,19 @@
     <script src="/socket.io/socket.io.js"></script>
     <script src="/main.js"></script>
     <script>
-      document.addEventListener('DOMContentLoaded', () => {
-        const cartLinks = document.querySelectorAll('a[href="/cart"]');
-        const cartData = localStorage.getItem("cart");
-        if (cartData) {
-          const cartObj = JSON.parse(cartData);
-          cartLinks.forEach(link => {
-            link.href = `/cart/${cartObj._id}`;
-          });
-        }
-      });
-    </script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const cartLinks = document.querySelectorAll('a[href="/cart"]');
+    if (userCartId) {
+      cartLinks.forEach(link => link.href = `/cart/${userCartId}`);
+    } else {
+      const cartData = localStorage.getItem("cart");
+      if (cartData) {
+        const cartObj = JSON.parse(cartData);
+        cartLinks.forEach(link => link.href = `/cart/${cartObj._id}`);
+      }
+    }
+  });
+</script>
     <script src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
   </body>
 </html>

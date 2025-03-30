@@ -9,7 +9,7 @@ const ticketSchema = new Schema({
   timestamps: true
 });
 
-ticketSchema.pre("save", async function (next) {
+ticketSchema.pre("validate", function (next) {
   if (!this.code) {
     this.code = `TICKET-${Date.now()}-${Math.random().toString(36).substring(2, 9).toUpperCase()}`;
   }

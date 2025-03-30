@@ -317,7 +317,7 @@ document.addEventListener("DOMContentLoaded", () => {
             backgroundColor: "linear-gradient(to right, #00b09b, #96c93d)",
           }).showToast();
 
-          window.location.href = `/ticket/${result.ticket._id}`;
+          window.location.href = `/tickets/${result.ticket._id}`;
         } else {
           Toastify({
             text: `Error al finalizar la compra: ${result.error || "Productos sin stock: " + result.unprocessedProducts.join(", ")}`,

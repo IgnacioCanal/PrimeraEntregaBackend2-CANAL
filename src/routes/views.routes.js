@@ -77,3 +77,17 @@ viewsRoutes.get("/tickets", async (req, res) => {
     res.status(500).json({ error: "Error al obtener los tickets" });
   }
 });
+
+viewsRoutes.get("/tickets/:ticketId", async (req, res) => {
+  const { ticketId } = req.params;
+  try {
+    const ticket = await Ticket.findById(ticketId).lean();
+    if (!ticket) {
+      return res.status(404).render("404", { error: "Ticket no encontrado" });
+    }
+    res.render("ticket", { ticket });
+  } catch (error) {
+    console.error("Error al obtener el ticket:", error);
+    res.status(500).render("500", { error: "Error al obtener el ticket" });
+  }
+});

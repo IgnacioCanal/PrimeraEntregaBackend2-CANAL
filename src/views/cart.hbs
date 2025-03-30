@@ -34,6 +34,11 @@
       class="btn red darken-2 waves-effect waves-light delete-all-btn"
     >Eliminar Todos</a>
   </div>
+  <a
+    href="#!"
+    class="btn green waves-effect waves-light purchase-btn"
+    data-cartid="{{currentUser.cartId}}"
+  >Finalizar Compra</a>
 {{else}}
   <p>El carrito está vacío.</p>
 {{/if}}

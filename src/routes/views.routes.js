@@ -1,6 +1,8 @@
 import { Router } from "express";
 import { productsService } from "../services/products.service.js";
 import  { cartService } from "../services/carts.service.js";
+import { Ticket } from "../models/Ticket.js";
+
 
 export const viewsRoutes = Router();
 
@@ -60,5 +62,18 @@ viewsRoutes.get("/cart/:cartId", async (req, res) => {
   } catch (error) {
     console.error("Error al obtener el carrito:", error.message);
     res.status(500).json({ error: "Error al obtener el carrito" });
+  }
+});
+
+viewsRoutes.get("/tickets", async (req, res) => {
+  try {
+    if (!req.user) {
+      return res.redirect("/login");
+    }
+    const tickets = await Ticket.find({ purchaser: req.user.email }).lean();
+    res.render("tickets", { tickets });
+  } catch (error) {
+    console.error("Error al obtener los tickets:", error);
+    res.status(500).json({ error: "Error al obtener los tickets" });
   }
 });

@@ -284,6 +284,63 @@ document.addEventListener("DOMContentLoaded", () => {
       }
     });
   }
+
+  const purchaseBtn = document.querySelector(".purchase-btn");
+  if (purchaseBtn) {
+    purchaseBtn.addEventListener("click", async (e) => {
+      e.preventDefault();
+      const cartId = purchaseBtn.getAttribute("data-cartid");
+      if (!cartId) {
+        Toastify({
+          text: "No se encontró el ID del carrito.",
+          duration: 3000,
+          gravity: "top",
+          position: "right",
+          backgroundColor: "linear-gradient(to right, #ff5f6d, #ffc371)",
+        }).showToast();
+        return;
+      }
+
+      try {
+        const response = await fetch(`/api/carts/${cartId}/purchase`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+        });
+
+        const result = await response.json();
+        if (response.ok) {
+          Toastify({
+            text: "Compra finalizada con éxito. Ticket generado.",
+            duration: 3000,
+            gravity: "top",
+            position: "right",
+            backgroundColor: "linear-gradient(to right, #00b09b, #96c93d)",
+          }).showToast();
+
+          window.location.href = `/ticket/${result.ticket._id}`;
+        } else {
+          Toastify({
+            text: `Error al finalizar la compra: ${result.error || "Productos sin stock: " + result.unprocessedProducts.join(", ")}`,
+            duration: 5000,
+            gravity: "top",
+            position: "right",
+            backgroundColor: "linear-gradient(to right, #ff5f6d, #ffc371)",
+          }).showToast();
+          window.location.reload();
+        }
+      } catch (error) {
+        console.error("Error al finalizar la compra:", error);
+        Toastify({
+          text: "Error al finalizar la compra.",
+          duration: 3000,
+          gravity: "top",
+          position: "right",
+          backgroundColor: "linear-gradient(to right, #ff5f6d, #ffc371)",
+        }).showToast();
+      }
+    });
+  }
+
 });
 
 document.addEventListener('DOMContentLoaded', function() {

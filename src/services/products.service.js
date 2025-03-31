@@ -1,22 +1,22 @@
-import ProductDAO from "../DAO/ProductDAO.js";
+import ProductRepository from "../repositories/product.repository.js";
 
-const productDAO = new ProductDAO();
+const productRepository = new ProductRepository();
 
 export class ProductsService {
   async getAll(page , limit) {
-    return await productDAO.getAll(page, limit);
+    return await productRepository.getAll(page, limit);
   }
 
   async countDocuments(filter = {}) {
-    return await productDAO.countDocuments(filter);
+    return await productRepository.countDocuments(filter);
   }
 
   async getById(productId) {
-    return await productDAO.getById(productId);
+    return await productRepository.getById(productId);
   }
 
   async create(productData) {
-    return await productDAO.create(productData);
+    return await productRepository.create(productData);
   }
 
   async addProduct({ nombre, precio, stock }) {
@@ -31,19 +31,19 @@ export class ProductsService {
       codigo: Date.now().toString(),
       categoria: "Sin categoría",
     };
-    return await productDAO.create(productData);
+    return await productRepository.create(productData);
   }
 
   async update(productId, productData) {
-    return await productDAO.update(productId, productData);
+    return await productRepository.update(productId, productData);
   }
 
   async delete(productId) {
-    return await productDAO.delete(productId);
+    return await productRepository.delete(productId);
   }
 
   async deleteProduct(nombre) {
-    return await productDAO.deleteByName(nombre);
+    return await productRepository.deleteByName(nombre);
   }
 }
 

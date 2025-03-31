@@ -34,6 +34,11 @@ const hbs = exphbs.create({
 });
 
 hbs.handlebars.registerHelper("multiply", (a, b) => a * b);
+hbs.handlebars.registerHelper("eq", function(a, b) { return a === b; });
+hbs.handlebars.registerHelper("formatDate", function(date) {
+  const options = { year: "numeric", month: "long", day: "numeric", hour: "2-digit", minute: "2-digit" };
+  return new Date(date).toLocaleDateString("es-ES", options);
+});
 
 app.engine("hbs", hbs.engine);
 app.set("view engine", "hbs");
@@ -52,6 +57,7 @@ const startServer = async () => {
   app.use(express.urlencoded({ extended: true }));
   app.use(express.static(path.resolve(__dirname, "../public")));
   app.use(cookieParser());
+
   app.use(async (req, res, next) => {
     if (req.cookies.token) {
       try {
@@ -59,7 +65,7 @@ const startServer = async () => {
         const user = await userModel.findById(decoded._id).lean();
         req.user = user;
         res.locals.currentUser = user || null;
-        if (user) {
+        if (user && user.role !== "admin") {
           const cart = await cartService.getCartById(user.cartId);
           res.locals.cartCount = cart ? cart.products.reduce((acc, item) => acc + item.quantity, 0) : 0;
         } else {

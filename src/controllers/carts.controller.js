@@ -1,6 +1,7 @@
 import { cartService } from "../services/carts.service.js";
 import { productsService } from "../services/products.service.js";
 import { Ticket } from "../models/Ticket.js";
+import TicketDTO from "../DTO/ticketDTO.js";
 
 class CartsController {
   async getAll(req, res) {
@@ -111,7 +112,7 @@ class CartsController {
           product.stock -= item.quantity;
           await productsService.update(product._id, { stock: product.stock });
           totalAmount += item.quantity * product.precio;
-          processedProducts.push(item.product._id.toString());
+          processedProducts.push({ product: item.product._id, quantity: item.quantity });
         } else {
           unprocessedProducts.push(item.product._id.toString());
         }
@@ -125,12 +126,14 @@ class CartsController {
       if (processedProducts.length > 0) {
         const ticket = new Ticket({
           amount: totalAmount,
-          purchaser: req.user.email 
+          purchaser: req.user.email,
+          products: processedProducts
         });
         await ticket.save();
+        const ticketDTO = new TicketDTO(ticket);
         return res.status(200).json({
           message: "Compra finalizada",
-          ticket,
+          ticket: ticketDTO,
           unprocessedProducts: unprocessedProducts.length ? unprocessedProducts : undefined
         });
       } else {

@@ -1,0 +1,23 @@
+<h1>Mis Pedidos</h1>
+
+{{#if tickets.length}}
+  <div class="row">
+    {{#each tickets}}
+      <div class="col s12 m6 l4">
+        <div class="card">
+          <div class="card-content">
+            <span class="card-title">Ticket #{{this.code}}</span>
+            <p><strong>Fecha de compra:</strong> {{formatDate this.purchase_datetime}}</p>
+            <p><strong>Monto total:</strong> ${{this.amount}}</p>
+            <p><strong>Comprador:</strong> {{this.purchaser}}</p>
+          </div>
+          <div class="card-action">
+            <a href="/tickets/{{this._id}}" class="btn waves-effect waves-light">Ver Detalles</a>
+          </div>
+        </div>
+      </div>
+    {{/each}}
+  </div>
+{{else}}
+  <p>No tienes pedidos realizados.</p>
+{{/if}}

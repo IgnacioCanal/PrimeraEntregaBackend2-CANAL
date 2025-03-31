@@ -2,6 +2,7 @@ import { Router } from "express";
 import { productsService } from "../services/products.service.js";
 import  { cartService } from "../services/carts.service.js";
 import { Ticket } from "../models/Ticket.js";
+import { requireAdmin } from "../middlewares/role.middleware.js";
 
 
 export const viewsRoutes = Router();
@@ -11,14 +12,17 @@ viewsRoutes.get("/", async (req, res) => {
   try {
     const products = await productsService.getAll(page, limit);
     let cartCount = 0;
-    if (res.locals.currentUser) {
+    if (res.locals.currentUser && res.locals.currentUser.role !== "admin") {
       const cart = await cartService.getCartById(res.locals.currentUser.cartId);
       cartCount = cart.products.reduce((acc, item) => acc + item.quantity, 0);
     }
+    const mensaje = req.query.mensaje;
     res.render("home", {
       title: "Inicio",
       products,
-      cartCount
+      cartCount,
+      mensaje,
+      currentUser: res.locals.currentUser
     });
   } catch (error) {
     console.error("Error al obtener los productos:", error.message);
@@ -26,12 +30,12 @@ viewsRoutes.get("/", async (req, res) => {
   }
 });
 
-viewsRoutes.get("/realtimeproducts", async (req, res) => {
+viewsRoutes.get("/realtimeproducts", requireAdmin, async (req, res) => {
   const { page = 1, limit = 10 } = req.query;
   try {
     const products = await productsService.getAll(page, limit);
     let cartCount = 0;
-    if (res.locals.currentUser) { // Usa res.locals.currentUser en lugar de req.user
+    if (res.locals.currentUser && res.locals.currentUser.role !== "admin") {
       const cart = await cartService.getCartById(res.locals.currentUser.cartId);
       cartCount = cart.products.reduce((acc, item) => acc + item.quantity, 0);
     }
@@ -81,13 +85,13 @@ viewsRoutes.get("/tickets", async (req, res) => {
 viewsRoutes.get("/tickets/:ticketId", async (req, res) => {
   const { ticketId } = req.params;
   try {
-    const ticket = await Ticket.findById(ticketId).lean();
+    const ticket = await Ticket.findById(ticketId).populate('products.product').lean();
     if (!ticket) {
       return res.status(404).render("404", { error: "Ticket no encontrado" });
     }
     res.render("ticket", { ticket });
   } catch (error) {
     console.error("Error al obtener el ticket:", error);
-    res.status(500).render("500", { error: "Error al obtener el ticket" });
+    res.status(500).json({ error: "Error al obtener el ticket" });
   }
 });

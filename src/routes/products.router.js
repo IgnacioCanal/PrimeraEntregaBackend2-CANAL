@@ -1,5 +1,6 @@
 import { Router } from "express";
 import { productsController } from "../controllers/products.controller.js";
+import { requireAdmin } from "../middlewares/role.middleware.js";
 
 export const productsRouter = Router();
 
@@ -23,6 +24,6 @@ const validateProductFields = (req, res, next) => {
 
 productsRouter.get("/", productsController.getAll);
 productsRouter.get("/:productId", productsController.getById);
-productsRouter.post("/", validateProductFields, productsController.create);
-productsRouter.put("/:productId", validateProductFields, productsController.update);
-productsRouter.delete("/:productId", productsController.delete);
+productsRouter.post("/", requireAdmin, validateProductFields, productsController.create);
+productsRouter.put("/:productId", requireAdmin, validateProductFields, productsController.update);
+productsRouter.delete("/:productId", requireAdmin, productsController.delete);

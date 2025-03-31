@@ -1,17 +1,25 @@
 <nav>
   <div class="nav-wrapper">
     <a href="#" class="brand-logo right">Victornillo Ferretería</a>
-    <a href="#" data-target="mobile-nav" class="sidenav-trigger"><i class="material-icons">menu</i></a>
+    <a href="#" data-target="mobile-nav" class="sidenav-trigger"><i
+        class="material-icons"
+      >menu</i></a>
     <ul id="nav-mobile" class="left hide-on-small-and-down">
       <li><a href="/">Lista de Productos</a></li>
       <li><a href="/realtimeproducts">Productos en Tiempo Real</a></li>
-        {{#if currentUser}}
-    <li><a href="/cart/{{currentUser.cartId}}">Mi Carrito <span class="new badge" data-badge-caption="">{{cartCount}}</span></a></li>
-    <li><a href="/profile">Perfil</a></li>
-    <li><a href="/api/sessions/logout">Logout</a></li>
-  {{else}}
-    <li><a href="/login">Login</a></li>
-  {{/if}}
+      {{#if currentUser}}
+        {{#unless (eq currentUser.role "admin")}}
+          <li><a href="/cart/{{currentUser.cartId}}">Mi Carrito
+              <span
+                class="new badge"
+                data-badge-caption=""
+              >{{cartCount}}</span></a></li>
+        {{/unless}}
+        <li><a href="/profile">Perfil</a></li>
+        <li><a href="/api/sessions/logout">Logout</a></li>
+      {{else}}
+        <li><a href="/login">Login</a></li>
+      {{/if}}
     </ul>
   </div>
 </nav>
@@ -19,8 +27,10 @@
 <ul class="sidenav" id="mobile-nav">
   <li><a href="/">Lista de Productos</a></li>
   <li><a href="/realtimeproducts">Productos en Tiempo Real</a></li>
-    {{#if currentUser}}
-    <li><a href="/cart/{{currentUser.cartId}}">Mi Carrito <span class="new badge" data-badge-caption="">{{cartCount}}</span></a></li>
+  {{#if currentUser}}
+    {{#unless (eq currentUser.role "admin")}}
+      <li><a href="/cart/{{currentUser.cartId}}">Mi Carrito <span class="new badge" data-badge-caption="">{{cartCount}}</span></a></li>
+    {{/unless}}
     <li><a href="/profile">Perfil</a></li>
     <li><a href="/api/sessions/logout">Logout</a></li>
   {{else}}

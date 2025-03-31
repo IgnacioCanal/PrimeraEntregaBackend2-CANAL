@@ -1,5 +1,6 @@
 import { productsService } from "../services/products.service.js";
 import { io } from "../socket.js";
+import ProductDTO from "../DTO/productsDTO.js";
 
 class ProductsController {
   async getAll(req, res) {
@@ -19,7 +20,8 @@ class ProductsController {
       if (!product) {
         return res.status(404).json({ error: "Producto no encontrado" });
       }
-      res.status(200).json(product);
+      const productDTO = new ProductDTO(product);
+      res.status(200).json(productDTO);
     } catch (error) {
       console.error("Error al obtener el producto:", error.message);
       res.status(500).json({ error: "Error al obtener el producto" });
@@ -30,7 +32,7 @@ class ProductsController {
     const newProduct = req.body;
     try {
       const createdProduct = await productsService.create(newProduct);
-      io.emit("nuevo-producto", createdProduct); // Mantenemos la emisión de socket
+      io.emit("nuevo-producto", createdProduct);
       res.status(201).json(createdProduct);
     } catch (error) {
       console.error("Error al crear el producto:", error.message);

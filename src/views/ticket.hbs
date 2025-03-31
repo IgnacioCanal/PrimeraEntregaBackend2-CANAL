@@ -4,15 +4,28 @@
       <div class="card-content">
         <span class="card-title">Compra Finalizada - Ticket</span>
         <p><strong>Código:</strong> {{ticket.code}}</p>
-        <p><strong>Fecha y Hora:</strong> {{ticket.purchase_datetime}}</p>
+        <p><strong>Fecha y Hora:</strong> {{formatDate this.purchase_datetime}}</p>
         <p><strong>Total:</strong> ${{ticket.amount}}</p>
         <p><strong>Comprador:</strong> {{ticket.purchaser}}</p>
+        {{#if ticket.products.length}}
+          <h6>Productos Comprados:</h6>
+          <ul>
+            {{#each ticket.products}}
+              <li>
+                {{this.product.nombre}} - 
+                Cantidad: {{this.quantity}} - 
+                Precio Unitario: ${{this.product.precio}} - 
+                Subtotal: ${{multiply this.quantity this.product.precio}}
+              </li>
+            {{/each}}
+          </ul>
+        {{/if}}
         {{#if unprocessedProducts}}
           <p><strong>Productos no procesados:</strong> {{unprocessedProducts}}</p>
         {{/if}}
       </div>
       <div class="card-action">
-        <a href="/" class="btn waves-effect waves-light">Volver al inicio</a>
+        <a href="/tickets" class="btn waves-effect waves-light">Volver a Pedidos</a>
       </div>
     </div>
   </div>

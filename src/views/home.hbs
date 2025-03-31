@@ -1,8 +1,24 @@
 <h1>Lista de Productos</h1>
-
+{{#if mensaje}}
+    <script>
+      document.addEventListener('DOMContentLoaded', function() {
+        M.toast({
+          html: '{{mensaje}}',
+          displayLength: 5000,
+          classes: 'rounded red darken-4',
+          inDuration: 500,
+          outDuration: 500
+        });
+      });
+    </script>
+  {{/if}}
 {{#if products.docs.length}}
   <p>Página {{products.page}} de {{products.totalPages}}</p>
-  <a href="/cart/{{currentUser.cartId}}" class="btn waves-effect waves-light green">Ver mi carrito</a>
+  {{#if currentUser}}
+    {{#unless (eq currentUser.role "admin")}}
+      <a href="/cart/{{currentUser.cartId}}" class="btn waves-effect waves-light green">Ver mi carrito</a>
+    {{/unless}}
+  {{/if}}
   <div class="row">
     {{#each products.docs}}
       <div class="col s12 m6 l4">
@@ -44,7 +60,6 @@
       {{products.page}}
     </p>
   </div>
-
 {{else}}
   <p>No hay productos disponibles.</p>
 {{/if}}

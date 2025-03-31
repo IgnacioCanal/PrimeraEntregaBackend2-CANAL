@@ -7,9 +7,11 @@
       <p><strong>Apellido:</strong> {{user.last_name}}</p>
       <p><strong>Email:</strong> {{user.email}}</p>
       <p><strong>Edad:</strong> {{user.age}}</p>
+      {{#unless (eq user.role "admin")}}
       <p><strong>Carrito ID:</strong> {{user.cartId}}</p>
       <a href="/cart/{{user.cartId}}" class="btn">Ver mi Carrito</a>
       <a href="/tickets" class="btn waves-effect waves-light">Ver Mis Pedidos</a>
+      {{/unless}}
     </div>
 
     <div class="center-align">

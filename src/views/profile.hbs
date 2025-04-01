@@ -12,6 +12,9 @@
       <a href="/cart/{{user.cartId}}" class="btn">Ver mi Carrito</a>
       <a href="/tickets" class="btn waves-effect waves-light">Ver Mis Pedidos</a>
       {{/unless}}
+      {{#if (eq user.role "admin")}}
+        <a href="/admin/tickets" class="btn waves-effect waves-light blue">Ver Todos los Pedidos</a>
+      {{/if}}
     </div>
 
     <div class="center-align">

@@ -95,3 +95,13 @@ viewsRoutes.get("/tickets/:ticketId", async (req, res) => {
     res.status(500).json({ error: "Error al obtener el ticket" });
   }
 });
+
+viewsRoutes.get("/admin/tickets", requireAdmin, async (req, res) => {
+  try {
+    const tickets = await Ticket.find().lean();
+    res.render("adminTickets", { tickets });
+  } catch (error) {
+    console.error("Error al obtener todos los tickets:", error);
+    res.status(500).json({ error: "Error al obtener los tickets" });
+  }
+});

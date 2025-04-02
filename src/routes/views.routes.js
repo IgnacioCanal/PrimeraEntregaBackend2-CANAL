@@ -62,7 +62,7 @@ viewsRoutes.get("/cart/:cartId", validateId, async (req, res) => {
     res.render("cart", {
       title: "Carrito",
       cartCount,
-      products: cart.products
+      products: cart.products,
     });
   } catch (error) {
     console.error("Error al obtener el carrito:", error.message);
@@ -90,7 +90,7 @@ viewsRoutes.get("/tickets/:ticketId", validateId, async (req, res) => {
     if (!ticket) {
       return res.status(404).render("404", { error: "Ticket no encontrado" });
     }
-    res.render("ticket", { ticket });
+    res.render("ticket", { ticket, user: req.user });
   } catch (error) {
     console.error("Error al obtener el ticket:", error);
     res.status(500).json({ error: "Error al obtener el ticket" });
@@ -104,5 +104,15 @@ viewsRoutes.get("/admin/tickets", requireAdmin, async (req, res) => {
   } catch (error) {
     console.error("Error al obtener todos los tickets:", error);
     res.status(500).json({ error: "Error al obtener los tickets" });
+  }
+});
+
+viewsRoutes.get("/admin/carts", requireAdmin, async (req, res) => {
+  try {
+    const carts = await cartService.getAllCarts();
+    res.render("adminCarts", { carts });
+  } catch (error) {
+    console.error("Error al obtener todos los carritos:", error);
+    res.status(500).json({ error: "Error al obtener los carritos" });
   }
 });

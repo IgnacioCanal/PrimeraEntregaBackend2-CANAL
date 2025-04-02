@@ -4,7 +4,9 @@
       <div class="card-content">
         <span class="card-title">Compra Finalizada - Ticket</span>
         <p><strong>Código:</strong> {{ticket.code}}</p>
+        {{#each (array ticket)}}
         <p><strong>Fecha y Hora:</strong> {{formatDate this.purchase_datetime}}</p>
+        {{/each}}
         <p><strong>Total:</strong> ${{ticket.amount}}</p>
         <p><strong>Comprador:</strong> {{ticket.purchaser}}</p>
         {{#if ticket.products.length}}
@@ -24,9 +26,14 @@
           <p><strong>Productos no procesados:</strong> {{unprocessedProducts}}</p>
         {{/if}}
       </div>
+      {{#unless (eq user.role "admin")}}
       <div class="card-action">
         <a href="/tickets" class="btn waves-effect waves-light">Volver a Pedidos</a>
       </div>
+      {{/unless}}
+      {{#if (eq user.role "admin")}}
+        <a href="/admin/tickets" class="btn waves-effect waves-light blue">Volver a Todos los Pedidos</a>
+      {{/if}}
     </div>
   </div>
 </div>

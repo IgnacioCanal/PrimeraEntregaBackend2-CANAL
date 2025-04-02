@@ -6,6 +6,8 @@ import { SECRET } from "../server.js";
 import { userService } from "../services/user.service.js";
 import { hashPassword, verifyPassword } from "../utils/password.utils.js";
 import { cartService } from "../services/carts.service.js";
+import { mailService } from "../services/mail.service.js";
+import { EMAIL_TYPES } from "../common/constants/emailTypes.js";
 
 export function initializePassport() {
   passport.use("register",new LocalStrategy(
@@ -38,6 +40,17 @@ export function initializePassport() {
           };
 
           const user = await userService.create(userData);
+
+          try {
+            await mailService.sendMail({
+              to: user.email,
+              subject: "Bienvenido a Victornillo!",
+              type: EMAIL_TYPES.WELCOME,
+            });
+          } catch (mailError) {
+            console.error("Failed to send welcome email:", mailError);
+          }
+
           return done(null, user);
         } catch (error) {
           done(error);

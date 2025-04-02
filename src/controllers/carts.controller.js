@@ -127,6 +127,7 @@ class CartsController {
           amount: totalAmount,
           purchaser: req.user.email,
           products: processedProducts,
+          purchase_datetime: new Date(),
         };
         const ticket = await ticketService.create(ticketData);
         return res.status(200).json({

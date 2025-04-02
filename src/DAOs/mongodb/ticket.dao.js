@@ -6,10 +6,10 @@ export class TicketDaoMongo {
   }
 
   async getById(ticketId) {
-    return await Ticket.findById(ticketId).populate("products.product");
+    return await Ticket.findById(ticketId).populate("products.product").lean();
   }
 
   async getAll(filter = {}) {
-    return await Ticket.find(filter).populate("products.product");
+    return await Ticket.find(filter).populate("products.product").lean();
   }
 }

@@ -1,7 +1,7 @@
 import { createTransport } from "nodemailer";
 
 import { CONFIG } from "../config/config.js";
-import { EMAIL_TYPES } from "../common/constants/email-types.js";
+import { EMAIL_TYPES } from "../common/constants/emailTypes.js";
 
 class MailService {
   constructor() {
@@ -37,7 +37,7 @@ class MailService {
       <img
         src="cid:logo"
         alt="Logo de Victornillo"
-        style="margin-top: 30px; width: 100px; height: 100px; object-fit: cover; border-radius: 50%;"
+        style="margin-top: 30px; width: 300px; height: auto; display: block; margin-left: auto; margin-right: auto; background-color: white; padding: 10px;"
       />
       </body>
     `;
@@ -55,12 +55,10 @@ class MailService {
         to,
         subject,
         html,
-
-
         attachments: [
           {
-            filename: "victornillo.png",
-            path: "./public/victornillo.png",
+            filename: "logovictornillo.png",
+            path: "./public/images/logovictornillo.png",
             cid: "logo",
           },
         ],
@@ -69,6 +67,7 @@ class MailService {
       console.log("Message sent: ", info.messageId);
     } catch (error) {
       console.error("Error sending email: ", error);
+      throw error;
     }
   }
 }

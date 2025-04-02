@@ -34,11 +34,26 @@
       class="btn red darken-2 waves-effect waves-light delete-all-btn"
     >Eliminar Todos</a>
   </div>
-  <a
-    href="#!"
-    class="btn green waves-effect waves-light purchase-btn"
-    data-cartid="{{currentUser.cartId}}"
-  >Finalizar Compra</a>
+  {{#unless (eq currentUser.role "admin")}}
+    <a
+      href="#!"
+      class="btn green waves-effect waves-light purchase-btn"
+      data-cartid="{{currentUser.cartId}}"
+    >Finalizar Compra</a>
+  {{/unless}}
+
+  {{#if (eq currentUser.role "admin")}}
+    <a
+      href="/admin/carts"
+      class="btn blue waves-effect waves-light"
+    >Volver a Todos los Carritos</a>
+  {{/if}}
 {{else}}
   <p>El carrito está vacío.</p>
+  {{#if (eq currentUser.role "admin")}}
+    <a
+      href="/admin/carts"
+      class="btn blue waves-effect waves-light"
+    >Volver a Todos los Carritos</a>
+  {{/if}}
 {{/if}}

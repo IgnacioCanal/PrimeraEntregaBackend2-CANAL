@@ -1,12 +1,12 @@
 import { Router } from "express";
 import { cartsController } from "../controllers/carts.controller.js";
-import { requireUser } from "../middlewares/role.middleware.js";
+import { requireUser, requireAdmin } from "../middlewares/role.middleware.js";
 import { validateId, validate } from "../middlewares/validate.middleware.js";
 import {cartDto, cartQuantityDto} from "../DTO/cart.dto.js";
 
 export const cartsRouter = Router();
 
-cartsRouter.get("/", cartsController.getAll);
+cartsRouter.get("/", requireAdmin, cartsController.getAll);
 cartsRouter.get("/:cartId",validateId, cartsController.getById);
 cartsRouter.post("/", cartsController.create);
 cartsRouter.post("/:cartId/products/:productId",validateId, requireUser, cartsController.addProductToCart);

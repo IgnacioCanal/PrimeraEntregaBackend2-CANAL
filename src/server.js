@@ -38,8 +38,15 @@ const hbs = exphbs.create({
 hbs.handlebars.registerHelper("multiply", (a, b) => a * b);
 hbs.handlebars.registerHelper("eq", function(a, b) { return a === b; });
 hbs.handlebars.registerHelper("formatDate", function(date) {
+  const dateObj = date instanceof Date ? date : new Date(date);
+  if (!dateObj || isNaN(new Date(dateObj))) {
+    return "Fecha no disponible";
+  }
   const options = { year: "numeric", month: "long", day: "numeric", hour: "2-digit", minute: "2-digit" };
   return new Date(date).toLocaleDateString("es-ES", options);
+});
+hbs.handlebars.registerHelper("array", function(item) {
+  return [item];
 });
 
 app.engine("hbs", hbs.engine);

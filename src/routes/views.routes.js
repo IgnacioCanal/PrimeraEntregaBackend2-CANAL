@@ -1,8 +1,9 @@
 import { Router } from "express";
 import { productsService } from "../services/products.service.js";
 import  { cartService } from "../services/carts.service.js";
-import { Ticket } from "../models/Ticket.js";
+import { ticketService } from "../services/ticket.service.js";
 import { requireAdmin } from "../middlewares/role.middleware.js";
+import { validateId } from "../middlewares/validate.middleware.js";
 
 
 export const viewsRoutes = Router();
@@ -50,7 +51,7 @@ viewsRoutes.get("/realtimeproducts", requireAdmin, async (req, res) => {
   }
 });
 
-viewsRoutes.get("/cart/:cartId", async (req, res) => {
+viewsRoutes.get("/cart/:cartId", validateId, async (req, res) => {
   const { cartId } = req.params;
   try {
     const cart = await cartService.getCartById(cartId);
@@ -74,7 +75,7 @@ viewsRoutes.get("/tickets", async (req, res) => {
     if (!req.user) {
       return res.redirect("/login");
     }
-    const tickets = await Ticket.find({ purchaser: req.user.email }).lean();
+    const tickets = await ticketService.getAll({ purchaser: req.user.email });
     res.render("tickets", { tickets });
   } catch (error) {
     console.error("Error al obtener los tickets:", error);
@@ -82,10 +83,10 @@ viewsRoutes.get("/tickets", async (req, res) => {
   }
 });
 
-viewsRoutes.get("/tickets/:ticketId", async (req, res) => {
+viewsRoutes.get("/tickets/:ticketId", validateId, async (req, res) => {
   const { ticketId } = req.params;
   try {
-    const ticket = await Ticket.findById(ticketId).populate('products.product').lean();
+    const ticket = await ticketService.getById(ticketId);
     if (!ticket) {
       return res.status(404).render("404", { error: "Ticket no encontrado" });
     }
@@ -98,7 +99,7 @@ viewsRoutes.get("/tickets/:ticketId", async (req, res) => {
 
 viewsRoutes.get("/admin/tickets", requireAdmin, async (req, res) => {
   try {
-    const tickets = await Ticket.find().lean();
+    const tickets = await ticketService.getAll();
     res.render("adminTickets", { tickets });
   } catch (error) {
     console.error("Error al obtener todos los tickets:", error);

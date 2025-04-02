@@ -1,7 +1,7 @@
 import passport from "passport";
 import jwt from "jsonwebtoken";
 import { SECRET } from "../server.js";
-import UserDTO from "../DTO/user.modelDTO.js";
+import { userDto } from "../DTO/user.dto.js";
 
 class SessionController {
   register(req, res, next) {
@@ -24,8 +24,11 @@ class SessionController {
 
   async getCurrentUser(req, res) {
     try {
-      const userDTO = new UserDTO(req.user);
-      res.json({ usuario: userDTO });
+      const { error, value } = userDto.validate(req.user, { stripUnknown: true });
+      if (error) {
+        return res.status(400).json({ error: "Datos del usuario inválidos", details: error.details });
+      }
+      res.json({ usuario: value });
     } catch (error) {
       res.status(500).json({ error: "Error al obtener el usuario actual" });
     }

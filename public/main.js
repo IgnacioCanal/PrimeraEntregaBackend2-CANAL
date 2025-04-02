@@ -1,5 +1,4 @@
 const socket = io();
-const cartId = localStorage.getItem("cartId");
 
 const showToast = (message, type = "success") => {
   Toastify({
@@ -40,8 +39,8 @@ if (formAgregar) {
   formAgregar.addEventListener("submit", (e) => {
     e.preventDefault();
     const nombre = document.getElementById("nombre").value;
-  const precio = parseFloat(document.getElementById("precio").value);
-  const stock = parseInt(document.getElementById("stock").value, 10);
+    const precio = parseFloat(document.getElementById("precio").value);
+    const stock = parseInt(document.getElementById("stock").value, 10);
 
   if (!nombre || isNaN(precio) || isNaN(stock)) {
     Toastify({
@@ -76,7 +75,7 @@ if (formEliminar) {
       }).showToast();
       return;
     }
-    if (confirm(`¿Estás seguro de que deseas eliminar el producto "${nombre}"?`)) {
+    if (confirm(`¿Estás seguro de que deseas eliminar el producto con el nombre "${nombre}"?`)) {
       socket.emit("eliminarProducto", { nombre, currentPage });
       e.target.reset();
     }
@@ -129,44 +128,6 @@ async function addToCart(productId) {
     }).showToast();
   }
 }
-
-function saveCartToLocalStorage(cart) {
-  localStorage.setItem("cart", JSON.stringify(cart));
-}
-
-
-async function resetCart() {
-  localStorage.removeItem("cart");
-  
-  const newCart = await createNewCart();
-  if (newCart) {
-    Toastify({
-      text: "Nuevo carrito creado.",
-      duration: 3000,
-      gravity: "top",
-      position: "right",
-      backgroundColor: "linear-gradient(to right, #00b09b, #96c93d)",
-    }).showToast();
-
-    updateCartCounter(0);
-  } else {
-    Toastify({
-      text: "Error al crear el nuevo carrito.",
-      duration: 3000,
-      gravity: "top",
-      position: "right",
-      backgroundColor: "linear-gradient(to right, #ff5f6d, #ffc371)",
-    }).showToast();
-  }
-}
-
-
-document.addEventListener("DOMContentLoaded", () => {
-  const resetCartBtn = document.getElementById("reset-cart-btn");
-  if (resetCartBtn) {
-    resetCartBtn.addEventListener("click", resetCart);
-  }
-});
 
 document.addEventListener("DOMContentLoaded", () => {
   window.addToCart = addToCart;
@@ -317,7 +278,7 @@ document.addEventListener("DOMContentLoaded", () => {
             backgroundColor: "linear-gradient(to right, #00b09b, #96c93d)",
           }).showToast();
 
-          window.location.href = `/tickets/${result.ticket.id}`;
+          window.location.href = `/tickets/${result.ticket._id}`;
         } else {
           Toastify({
             text: `Error al finalizar la compra: ${result.error || "Productos sin stock: " + result.unprocessedProducts.join(", ")}`,

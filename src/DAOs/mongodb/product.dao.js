@@ -1,6 +1,6 @@
-import { Product } from "../models/Products.js";
+import { Product } from "../../models/products.model.js";
 
-class ProductDAO {
+export class productDaoMongo {
   async getAll(page, limit) {
     return await Product.paginate({}, { page: Number(page), limit: Number(limit) });
   }
@@ -29,5 +29,3 @@ class ProductDAO {
     return await Product.findOneAndDelete({ nombre });
   }
 }
-
-export default ProductDAO;

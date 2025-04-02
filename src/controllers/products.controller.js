@@ -1,6 +1,5 @@
 import { productsService } from "../services/products.service.js";
 import { io } from "../socket.js";
-import ProductDTO from "../DTO/productsDTO.js";
 
 class ProductsController {
   async getAll(req, res) {

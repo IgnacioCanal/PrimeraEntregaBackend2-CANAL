@@ -1,15 +1,13 @@
-import CartRepository from "../repositories/cart.repository.js";
-
-const cartRepository = new CartRepository();
+import { cartDao } from "../DAOs/index.dao.js";
 
 export class CartService {
   async createCart() {
-    return await cartRepository.createCart();
+    return await cartDao.createCart();
   }
 
   async getCartById(cartId) {
     try {
-      const cart = await cartRepository.getCartById(cartId);
+      const cart = await cartDao.getCartById(cartId);
       if (!cart) throw new Error("Carrito no encontrado");
       return cart;
     } catch (error) {
@@ -20,7 +18,7 @@ export class CartService {
 
   async getAllCarts() {
     try {
-      return await cartRepository.getAllCarts();
+      return await cartDao.getAllCarts();
     } catch (error) {
       console.error("Error al obtener carritos:", error);
       throw new Error("Error al obtener carritos");
@@ -29,7 +27,7 @@ export class CartService {
 
   async addProductToCart(cartId, productId) {
     try {
-      return await cartRepository.addProductToCart(cartId, productId);
+      return await cartDao.addProductToCart(cartId, productId);
     } catch (error) {
       console.error("Error al agregar producto al carrito:", error);
       throw new Error("Error al agregar producto al carrito");
@@ -38,7 +36,7 @@ export class CartService {
 
   async updateProductQuantity(cartId, productId, quantity) {
     try {
-      return await cartRepository.updateProductQuantity(cartId, productId, quantity);
+      return await cartDao.updateProductQuantity(cartId, productId, quantity);
     } catch (error) {
       console.error("Error al actualizar cantidad:", error);
       throw new Error("Error al actualizar cantidad del producto");
@@ -47,7 +45,7 @@ export class CartService {
 
   async removeProductFromCart(cartId, productId) {
     try {
-      return await cartRepository.removeProductFromCart(cartId, productId);
+      return await cartDao.removeProductFromCart(cartId, productId);
     } catch (error) {
       console.error("Error al eliminar producto del carrito:", error);
       throw new Error("Error al eliminar producto del carrito");
@@ -56,7 +54,7 @@ export class CartService {
 
   async updateCart(cartId, products) {
     try {
-      return await cartRepository.updateCart(cartId, products);
+      return await cartDao.updateCart(cartId, products);
     } catch (error) {
       console.error("Error al actualizar carrito:", error);
       throw new Error("Error al actualizar carrito");
@@ -65,7 +63,7 @@ export class CartService {
 
   async clearCart(cartId) {
     try {
-      return await cartRepository.clearCart(cartId);
+      return await cartDao.clearCart(cartId);
     } catch (error) {
       console.error("Error al vaciar carrito:", error);
       throw new Error("Error al vaciar carrito");

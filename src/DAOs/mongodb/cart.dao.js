@@ -1,6 +1,6 @@
-import Cart from "../models/Carts.js";
+import Cart from "../../models/carts.model.js";
 
-class CartDAO {
+export class CartDaoMongo {
   async createCart() {
     return await Cart.create({ products: [] });
   }
@@ -72,4 +72,3 @@ class CartDAO {
   }
 }
 
-export default CartDAO;

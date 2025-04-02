@@ -28,7 +28,7 @@
           </div>
           <div class="card-content">
             <p class="content-padding">Precio: ${{this.precio}}</p>
-            <p class="content-padding">Categoría: {{this.categoria}}</p>
+            <p class="content-padding">Categoría: {{#if this.categoria}}{{this.categoria}}{{else}}Sin categoría{{/if}}</p>
             <p class="content-padding">Stock: {{this.stock}}</p>
           </div>
           <div class="card-action center-align">

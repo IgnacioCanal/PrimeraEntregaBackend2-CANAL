@@ -3,15 +3,17 @@ import morgan from "morgan";
 import express from "express";
 import { createServer } from "http";
 import exphbs from "express-handlebars";
-import connectDB from "./config/mongodb.js";
+import { mongodbProvider } from "./config/mongodbProvider.js";
 import cookieParser from "cookie-parser";
 import passport from "passport";
 import { initializePassport } from "./config/passport.config.js";
 import jwt from "jsonwebtoken";
 import { userModel } from "./models/user.model.js";
+import cors from "cors";
 
 import { __dirname } from "./dirname.js";
 import { CONFIG } from "./config/config.js";
+import { PERSISTENCE } from "./common/constants/persistence.js";
 import { productsRouter } from "./routes/products.router.js";
 import { cartsRouter } from "./routes/carts.router.js";
 import { viewsRoutes } from "./routes/views.routes.js";
@@ -46,7 +48,16 @@ app.set("views", path.join(__dirname, "views"));
 
 const startServer = async () => {
 
-  await connectDB();
+  if (CONFIG.PERSISTENCE === PERSISTENCE.MONGODB) {
+    try {
+      await mongodbProvider.connect(CONFIG.MONGO_URI);
+    } catch (error) {
+      console.error("Failed to start server due to MongoDB connection error:", error);
+      process.exit(1);
+    }
+  } else if (CONFIG.PERSISTENCE === PERSISTENCE.MEMORY) {
+    console.log("Using in-memory persistence");
+  }
 
   initializePassport();
   app.use(passport.initialize());
@@ -57,6 +68,7 @@ const startServer = async () => {
   app.use(express.urlencoded({ extended: true }));
   app.use(express.static(path.resolve(__dirname, "../public")));
   app.use(cookieParser());
+  app.use(cors());
 
   app.use(async (req, res, next) => {
     if (req.cookies.token) {

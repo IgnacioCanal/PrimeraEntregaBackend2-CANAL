@@ -14,9 +14,9 @@ export const productDto = Joi.object({
   }),
   codigo: Joi.string().optional(),
   categoria: Joi.string().optional(),
-  precio: Joi.number().min(0).required().messages({
+  precio: Joi.number().min(2).required().messages({
     "number.base": "El precio debe ser un número",
-    "number.min": "El precio no puede ser negativo",
+    "number.min": "El precio debe ser mayor o igual a 2",
     "any.required": "El precio es obligatorio",
   }),
   status: Joi.boolean().optional().messages({

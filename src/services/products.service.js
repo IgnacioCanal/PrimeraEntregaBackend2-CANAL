@@ -1,6 +1,7 @@
 import { productDao } from "../DAOs/index.dao.js";
 
 export class ProductsService {
+
   async getAll(page , limit) {
     return await productDao.getAll(page, limit);
   }

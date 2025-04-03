@@ -19,8 +19,7 @@ class ProductsController {
       if (!product) {
         return res.status(404).json({ error: "Producto no encontrado" });
       }
-      const productDTO = new ProductDTO(product);
-      res.status(200).json(productDTO);
+      res.status(200).json(product);
     } catch (error) {
       console.error("Error al obtener el producto:", error.message);
       res.status(500).json({ error: "Error al obtener el producto" });

@@ -7,8 +7,11 @@ class SessionController {
   register(req, res, next) {
     passport.authenticate("register", { session: false }, (err, user, info) => {
       if (err) return next(err);
-      if (!user) return res.redirect("/register?message=fail-register");
-      res.redirect("/login");
+      if (!user) {
+        const errorMessage = encodeURIComponent(info.message || "Error al registrar");
+        return res.redirect(`/register?error=${errorMessage}`);
+      }
+      return res.redirect("/login?message=register-success");
     })(req, res, next);
   }
 
